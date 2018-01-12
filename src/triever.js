@@ -19,7 +19,7 @@ class TrieNode {
       const currentKey = splitKey[i];
 
       if (!node._childPaths[currentKey])
-        node._childPaths[currentKey] = new TrieNode(this);
+        node._childPaths[currentKey] = new TrieNode(node);
 
       node = node._childPaths[currentKey];
     }
