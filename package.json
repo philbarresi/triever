@@ -1,6 +1,6 @@
 {
   "name": "triever",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A library for quick insert and retrieval of JavaScript objects, keyed by prefix strings.",
   "main": "src/triever.js",
   "scripts": {

@@ -58,12 +58,7 @@ class TrieNode {
           results.push.apply(results, currentChild._data);
         }
 
-        const grandchildNodes = Object.keys(currentChild._childPaths).map(
-          key => {
-            return currentChild._childPaths[key];
-          }
-        );
-
+        const grandchildNodes = Object.values(currentChild._childPaths);
         currentRoundChildren.push.apply(currentRoundChildren, grandchildNodes);
       });
 
