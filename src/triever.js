@@ -51,10 +51,7 @@ class TrieNode {
     if (!key) {
       return Object.keys(this._childPaths).reduce(
         (entries, currentChildKey) => {
-          return [
-            ...entries,
-            ...this._childPaths[currentChildKey].getData(key)
-          ];
+          return entries.concat(this._childPaths[currentChildKey].getData(key));
         },
         this._data
       );
