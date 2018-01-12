@@ -1,11 +1,3 @@
-function getNextPath(key) {
-  return key.substring(1, key.length);
-}
-
-function getCurrentPath(key) {
-  return key.substring(0, 1);
-}
-
 /**
  * A node in a Trie that allows for prefix based searching
  * @class
@@ -20,29 +12,34 @@ class TrieNode {
   }
 
   add(key, entry) {
-    if (!key) {
-      this._data.push(entry);
-    } else {
-      const currentStep = getCurrentPath(key);
-      const nextPath = getNextPath(key);
+    const splitKey = (key || "").split("");
+    let node = this;
 
-      this._childPaths[currentStep] =
-        this._childPaths[currentStep] || new TrieNode(this);
+    for (let i = 0; i < splitKey.length; i++) {
+      const currentKey = splitKey[i];
 
-      this._childPaths[currentStep].add(nextPath, entry);
+      if (!node._childPaths[currentKey])
+        node._childPaths[currentKey] = new TrieNode(this);
+
+      node = node._childPaths[currentKey];
     }
+
+    node._data.push(entry);
+
+    return node;
   }
 
   getNode(key) {
-    if (!key) return this;
+    const splitKey = (key || "").split("");
+    let node = this;
 
-    const currentStep = getCurrentPath(key);
-    if (!this._childPaths[currentStep]) return null;
+    for (let i = 0; i < splitKey.length; i++) {
+      const currentKey = splitKey[i];
+      node = node._childPaths[currentKey] || null;
+      if (node === null) return null;
+    }
 
-    const nextPath = getNextPath(key);
-    const matchingChildNode = this._childPaths[currentStep].getNode(nextPath);
-
-    return matchingChildNode;
+    return node;
   }
 
   getData(key) {
