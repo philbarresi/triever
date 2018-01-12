@@ -43,22 +43,34 @@ class TrieNode {
   }
 
   getData(key) {
-    // If no key left, get all data from all children
-    // I.e., D should get Dog, Doge, Duck
-    if (!key) {
-      return Object.keys(this._childPaths).reduce(
-        (entries, currentChildKey) => {
-          return entries.concat(this._childPaths[currentChildKey].getData(key));
-        },
-        this._data
-      );
+    const rootNode = this.getNode(key);
+    if (!rootNode) return null;
+
+    // search from rootNode down
+    let children = [rootNode];
+    const results = [];
+
+    while (children.length > 0) {
+      const currentRoundChildren = [];
+
+      children.forEach(currentChild => {
+        if (currentChild._data) {
+          results.push.apply(results, currentChild._data);
+        }
+
+        const grandchildNodes = Object.keys(currentChild._childPaths).map(
+          key => {
+            return currentChild._childPaths[key];
+          }
+        );
+
+        currentRoundChildren.push.apply(currentRoundChildren, grandchildNodes);
+      });
+
+      children = currentRoundChildren;
     }
 
-    // If there is a key, keep searching until we find it.
-    const node = this.getNode(key);
-    if (!node) return null;
-
-    return node.getData(null);
+    return results;
   }
 }
 
