@@ -3,25 +3,26 @@
  * @class
  */
 class TrieNode {
-  constructor(parent) {
+  constructor() {
     this._childPaths = {};
     this._data = [];
-    this._parent = parent || null;
 
     return this;
   }
 
   add(key, entry) {
     const splitKey = (key || "").split("");
+    const keyLength = splitKey.length - 1;
     let node = this;
 
-    for (let i = 0; i < splitKey.length; i++) {
-      const currentKey = splitKey[i];
+    for (let i = keyLength; i >= 0; i--) {
+      const currentKey = splitKey[keyLength - i];
 
-      if (!node._childPaths[currentKey])
-        node._childPaths[currentKey] = new TrieNode(node);
-
-      node = node._childPaths[currentKey];
+      if (!node._childPaths[currentKey]) {
+        node = node._childPaths[currentKey] = new TrieNode();
+      } else {
+        node = node._childPaths[currentKey];
+      }
     }
 
     node._data.push(entry);
@@ -31,11 +32,11 @@ class TrieNode {
 
   getNode(key) {
     const splitKey = (key || "").split("");
+    const keyLength = splitKey.length - 1;
     let node = this;
 
-    for (let i = 0; i < splitKey.length; i++) {
-      const currentKey = splitKey[i];
-      node = node._childPaths[currentKey] || null;
+    for (let i = keyLength; i >= 0; i--) {
+      node = node._childPaths[splitKey[keyLength - i]] || null;
       if (node === null) return null;
     }
 
@@ -54,12 +55,17 @@ class TrieNode {
       const currentRoundChildren = [];
 
       children.forEach(currentChild => {
-        if (currentChild._data) {
+        if (currentChild._data.length) {
           results.push.apply(results, currentChild._data);
         }
 
         const grandchildNodes = Object.values(currentChild._childPaths);
-        currentRoundChildren.push.apply(currentRoundChildren, grandchildNodes);
+        if (grandchildNodes.length) {
+          currentRoundChildren.push.apply(
+            currentRoundChildren,
+            grandchildNodes
+          );
+        }
       });
 
       children = currentRoundChildren;
