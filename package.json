@@ -1,6 +1,6 @@
 {
   "name": "triever",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "A library for quick insert and retrieval of JavaScript objects, keyed by prefix strings.",
   "main": "src/triever.js",
   "scripts": {
@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Troy-Web-Consulting/triever.git"
+    "url": "git+https://github.com/philbarresi/triever.git"
   },
   "keywords": [
     "trie",
@@ -22,9 +22,9 @@
   "author": "Phil Barresi",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Troy-Web-Consulting/triever/issues"
+    "url": "https://github.com/philbarresi/triever/issues"
   },
-  "homepage": "https://github.com/Troy-Web-Consulting/triever#readme",
+  "homepage": "https://github.com/philbarresi/triever#readme",
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",

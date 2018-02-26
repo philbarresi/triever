@@ -48,27 +48,22 @@ class TrieNode {
     if (!rootNode) return null;
 
     // search from rootNode down
-    let children = [rootNode];
+    const children = [rootNode];
     const results = [];
 
-    while (children.length > 0) {
-      const currentRoundChildren = [];
+    // Under normal circumstances, mutating an array you're traversing 
+    // is bad and this is less readable, but this has outperformed everything else
+    for (let i = 0; i < children.length; i++) {
+      const currentChild = children[i];
 
-      children.forEach(currentChild => {
-        if (currentChild._data.length) {
-          results.push.apply(results, currentChild._data);
-        }
+      if (currentChild._data.length) {
+        results.push.apply(results, currentChild._data);
+      }
 
-        const grandchildNodes = Object.values(currentChild._childPaths);
-        if (grandchildNodes.length) {
-          currentRoundChildren.push.apply(
-            currentRoundChildren,
-            grandchildNodes
-          );
-        }
-      });
-
-      children = currentRoundChildren;
+      const grandchildNodes = Object.values(currentChild._childPaths);
+      if (grandchildNodes.length) {
+        children.push.apply(children, grandchildNodes);
+      }
     }
 
     return results;

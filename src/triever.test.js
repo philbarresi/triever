@@ -48,49 +48,56 @@ beforeEach(() => {
 
 describe("basic tests", () => {
   test("can retrieve water ", () => {
-    const getWater = testTrie.getData("water");
+    const waterData = testTrie.getData("water");
+    const ids = waterData.map(x => x.id);
 
-    expect(getWater[0].id).toBe(6);
+    expect(ids).toHaveLength(1);
+    expect(ids).toContain(6);
   });
 
   test("can retrieve book and bookshelf from book ", () => {
     const bookEntries = testTrie.getData("book");
+    const ids = bookEntries.map(x => x.id);
 
-    expect(bookEntries.length).toBe(2);
-    expect(bookEntries[0].id).toBe(3);
-    expect(bookEntries[1].id).toBe(5);
+    expect(ids).toHaveLength(2);
+    expect(ids).toContain(3);
+    expect(ids).toContain(5);
   });
 
   test("can retrieve all 'd' prefixes from 'd' ", () => {
     const dEntries = testTrie.getData("d");
+    const ids = dEntries.map(x => x.id);
 
-    expect(dEntries.length).toBe(4);
-    expect(dEntries[0].id).toBe(0);
-    expect(dEntries[1].id).toBe(1);
-    expect(dEntries[2].id).toBe(2);
-    expect(dEntries[3].id).toBe(7);
+    expect(ids).toHaveLength(4);
+    expect(ids).toContain(0);
+    expect(ids).toContain(1);
+    expect(ids).toContain(2);
+    expect(ids).toContain(7);
   });
 
   test("can retrieve all 'do' data from 'do' node", () => {
     const doNode = testTrie.getNode("do");
     const doEntries = doNode.getData(null);
+    const ids = doEntries.map(x => x.id);
 
+    expect(ids).toHaveLength(2);
     expect(doEntries.length).toBe(2);
-    expect(doEntries[0].id).toBe(0);
-    expect(doEntries[1].id).toBe(1);
+    expect(ids).toContain(0);
+    expect(ids).toContain(1);
   });
 
   test("can retrieve all 'g' data from 'do' node", () => {
     const doNode = testTrie.getNode("do");
     const dogEntries = doNode.getData("g");
+    const ids = dogEntries.map(x => x.id);
 
-    expect(dogEntries.length).toBe(2);
-    expect(dogEntries[0].id).toBe(0);
-    expect(dogEntries[1].id).toBe(1);
+    expect(ids).toHaveLength(2);
+    expect(ids).toContain(0);
+    expect(ids).toContain(1);
   });
-  
+
   test("returns null when key does not exist", () => {
     const nonExistingData = testTrie.getData("ukulele");
     expect(nonExistingData).toBeNull();
-  })
+  });
 });
